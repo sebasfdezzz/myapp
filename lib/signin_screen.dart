@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'auth.dart';
+import 'package:myapp/auth.dart';
 import 'logs.dart';
 
 class SignInScreen extends StatefulWidget {
@@ -52,7 +52,7 @@ class _SignInScreenState extends State<SignInScreen> {
     final email = _emailController.text.trim();
     final password = _passwordController.text;
     await traceInfo('SignIn', 'Attempting sign in for $email');
-    final error = await signIn(email, password);
+    final error = await Auth.signIn(email, password);
     if (error == null) {
       await traceInfo('SignIn', 'Sign in successful for $email');
       if (mounted) {

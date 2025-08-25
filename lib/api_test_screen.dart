@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'dart:convert';
-import 'package:http/http.dart' as http;
 import 'config.dart';
 import 'logs.dart';
+import 'api.dart';
 
 class ApiTestScreen extends StatefulWidget {
   @override
@@ -26,7 +25,7 @@ class _ApiTestScreenState extends State<ApiTestScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('API Test')),
+      appBar: AppBar(title: const Text('API Test')),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -41,38 +40,38 @@ class _ApiTestScreenState extends State<ApiTestScreen> {
                       .toList(),
                   onChanged: (v) => setState(() => _method = v!),
                 ),
-                SizedBox(width: 16),
+                const SizedBox(width: 16),
                 Expanded(
                   child: TextField(
                     controller: _endpointController,
-                    decoration: InputDecoration(labelText: 'Endpoint (e.g. /users)'),
+                    decoration: const InputDecoration(labelText: 'Endpoint (e.g. /users)'),
                   ),
                 ),
               ],
             ),
             if (_method != 'GET') ...[
-              SizedBox(height: 8),
+              const SizedBox(height: 8),
               TextField(
                 controller: _bodyController,
-                decoration: InputDecoration(labelText: 'Request Body (JSON)'),
+                decoration: const InputDecoration(labelText: 'Request Body (JSON)'),
                 minLines: 2,
                 maxLines: 5,
               ),
             ],
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             ElevatedButton(
               onPressed: _loading ? null : _sendRequest,
-              child: Text('Send'),
+              child: const Text('Send'),
             ),
-            SizedBox(height: 16),
-            Text('Response:'),
+            const SizedBox(height: 16),
+            const Text('Response:'),
             Expanded(
               child: SingleChildScrollView(
                 child: Container(
                   width: double.infinity,
                   color: Colors.grey[200],
-                  padding: EdgeInsets.all(8),
-                  child: Text(_response ?? '', style: TextStyle(fontFamily: 'monospace')),
+                  padding: const EdgeInsets.all(8),
+                  child: Text(_response ?? '', style: const TextStyle(fontFamily: 'monospace')),
                 ),
               ),
             ),
@@ -82,31 +81,22 @@ class _ApiTestScreenState extends State<ApiTestScreen> {
     );
   }
 
-  void _sendRequest() async {
+  Future<void> _sendRequest() async {
     setState(() {
       _loading = true;
       _response = null;
     });
-    final url = Uri.parse(apiBaseUrl + _endpointController.text.trim());
-    http.Response resp;
-    await traceInfo('ApiTest', 'Sending $_method request to ${url.toString()}');
+
+    final url = Uri.parse(Config.apiBaseUrl + _endpointController.text.trim());
+
     try {
-      switch (_method) {
-        case 'GET':
-          resp = await http.get(url);
-          break;
-        case 'POST':
-          resp = await http.post(url, body: _bodyController.text, headers: {'Content-Type': 'application/json'});
-          break;
-        case 'PUT':
-          resp = await http.put(url, body: _bodyController.text, headers: {'Content-Type': 'application/json'});
-          break;
-        case 'DELETE':
-          resp = await http.delete(url);
-          break;
-        default:
-          resp = http.Response('Unsupported method', 400);
-      }
+      await traceInfo('ApiTest', 'Sending $_method request to $url');
+      final resp = await Api.callApi(
+        method: _method,
+        url: url,
+        body: _method == 'GET' ? null : _bodyController.text.trim(),
+      );
+
       await traceInfo('ApiTest', 'Response ${resp.statusCode}: ${resp.body}');
       setState(() {
         _response = 'Status: ${resp.statusCode}\n${resp.body}';

@@ -1,62 +1,44 @@
+import 'package:amazon_cognito_identity_dart_2/cognito.dart';
+import 'package:myapp/config.dart';
+
+final userPool = CognitoUserPool(
+  Config.cognitoUserPoolId, // userPoolId
+  Config.cognitoClientId, // clientId
+);
+
 class Auth {
-  void signIn() {}
-
-  void signUp(String email, String name, String user_type, String password) {}
-
-  void verifyEmail(String email, String code) {}
-
-  void register(String email, String code) {}
-import 'dart:convert';
-import 'package:http/http.dart' as http;
-import 'config.dart';
-
-// Sign up user
-Future<String?> signUp(String email, String password) async {
-  final url = Uri.parse('$apiBaseUrl/signup');
-  final response = await http.post(url, body: jsonEncode({
-    'email': email,
-    'password': password,
-    'client_id': cognitoClientId,
-    'user_pool_id': cognitoUserPoolId,
-  }), headers: {'Content-Type': 'application/json'});
-  if (response.statusCode == 200) {
-    return null; // Success
-  } else {
-    return response.body;
+  static Future<String?> signUp(String email, String password) async {
+    try {
+      await userPool.signUp(email, password);
+      return null;
+    } catch (e) {
+      return e.toString();
+    }
   }
-}
 
-// Confirm sign up with code
-Future<String?> confirmSignUp(String email, String code) async {
-  final url = Uri.parse('$apiBaseUrl/confirm');
-  final response = await http.post(url, body: jsonEncode({
-    'email': email,
-    'code': code,
-    'client_id': cognitoClientId,
-    'user_pool_id': cognitoUserPoolId,
-  }), headers: {'Content-Type': 'application/json'});
-  if (response.statusCode == 200) {
-    return null;
-  } else {
-    return response.body;
+  static Future<String?> confirmSignUp(String email, String code) async {
+    final user = CognitoUser(email, userPool);
+    try {
+      await user.confirmRegistration(code);
+      return null;
+    } catch (e) {
+      return e.toString();
+    }
   }
-}
 
-// Sign in user
-Future<String?> signIn(String email, String password) async {
-  final url = Uri.parse('$apiBaseUrl/signin');
-  final response = await http.post(url, body: jsonEncode({
-    'email': email,
-    'password': password,
-    'client_id': cognitoClientId,
-    'user_pool_id': cognitoUserPoolId,
-  }), headers: {'Content-Type': 'application/json'});
-  if (response.statusCode == 200) {
-    final data = jsonDecode(response.body);
-    globalUserSub = data['sub'];
-    return null;
-  } else {
-    return response.body;
+  static Future<String?> signIn(String email, String password) async {
+    final user = CognitoUser(email, userPool);
+    final authDetails = AuthenticationDetails(
+      username: email,
+      password: password,
+    );
+    try {
+      final session = await user.authenticateUser(authDetails);
+      return (session != null && session.isValid()) 
+        ? "Valid Session" 
+        : "Invalid Session";
+    } catch (e) {
+      return e.toString();
+    }
   }
-}
 }
