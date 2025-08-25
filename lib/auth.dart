@@ -31,7 +31,7 @@ static Future<String?> signUp(String email, String password, String name) async 
   try {
     final userAttributes = [
       AttributeArg(name: 'email', value: email),
-      AttributeArg(name: 'name.formatted', value: name),
+      AttributeArg(name: 'name', value: name),
       AttributeArg(name: 'custom:user_type', value: 'client'), // custom attribute
     ];
 
