@@ -13,6 +13,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _codeController = TextEditingController();
+  final _nameController = TextEditingController();
+
   bool _awaitingCode = false;
   String? _error;
 
@@ -31,6 +33,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
+        TextField(
+          controller: _nameController,
+          decoration: const InputDecoration(labelText: 'Full Name'),
+        ),
         TextField(
           controller: _emailController,
           decoration: const InputDecoration(labelText: 'Email'),
@@ -76,22 +82,24 @@ class _SignUpScreenState extends State<SignUpScreen> {
     );
   }
 
-  Future<void> _signUp() async {
-    setState(() => _error = null);
-    final email = _emailController.text.trim();
-    final password = _passwordController.text;
+Future<void> _signUp() async {
+  setState(() => _error = null);
+  final email = _emailController.text.trim();
+  final password = _passwordController.text;
+  final name = _nameController.text.trim();
 
-    await traceInfo('SignUp', 'Attempting sign up for $email');
-    final error = await Auth.signUp(email, password); // ✅ static call
-    if (error == null) {
-      await traceInfo(
-          'SignUp', 'Sign up successful for $email, awaiting confirmation code');
-      setState(() => _awaitingCode = true);
-    } else {
-      await traceError('SignUp', 'Sign up failed for $email: $error');
-      setState(() => _error = error);
-    }
+  await traceInfo('SignUp', 'Attempting sign up for $email');
+  final error = await Auth.signUp(email, password, name); // pass name
+  if (error == null) {
+    await traceInfo(
+        'SignUp', 'Sign up successful for $email, awaiting confirmation code');
+    setState(() => _awaitingCode = true);
+  } else {
+    await traceError('SignUp', 'Sign up failed for $email: $error');
+    setState(() => _error = error);
   }
+}
+
 
   Future<void> _confirmCode() async {
     setState(() => _error = null);
