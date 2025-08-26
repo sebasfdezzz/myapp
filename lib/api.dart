@@ -33,3 +33,13 @@ class WineSalesApi : Api {
     return callApi(method: 'POST', path: 'wine_sales/${wineSale.clientId}', body: wineSale.toJson());
   }
 }
+
+class PairingsApi : Api {
+  static Future<http.Response> getPairingsByClient(String clientId) {
+    return callApi(method: 'GET', path: 'pairings/$clientId');
+  }
+
+  static Future<http.Response> createPairings(String clientId) {
+    return callApi(method: 'POST', path: 'pairings/$clientId');
+  }
+}

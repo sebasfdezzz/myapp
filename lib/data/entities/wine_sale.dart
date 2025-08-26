@@ -6,7 +6,7 @@ var example_json = {
   "sale_date": "2025-08-15T18:45:00Z"
 };
 
-class WineSaleEntity {
+class WineSale {
     String pk;
     String sk;
     String clientId;
@@ -16,7 +16,7 @@ class WineSaleEntity {
     String entityType;
     String saleDate;
 
-    WineSaleEntity({
+    WineSale({
         required this.clientId,
         required this.wineId,
         required this.amount,
