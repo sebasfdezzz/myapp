@@ -89,14 +89,13 @@ Future<void> _signUp() async {
   final name = _nameController.text.trim();
 
   await traceInfo('SignUp', 'Attempting sign up for $email');
-  final error = await Auth.signUp(email, password, name); // pass name
-  if (error == null) {
+  final signedUp = await Auth.signUp(email, password, name);
+  if (signedUp) {
     await traceInfo(
         'SignUp', 'Sign up successful for $email, awaiting confirmation code');
     setState(() => _awaitingCode = true);
   } else {
-    await traceError('SignUp', 'Sign up failed for $email: $error');
-    setState(() => _error = error);
+    await traceError('SignUp', 'Sign up failed for $email');
   }
 }
 
@@ -107,16 +106,15 @@ Future<void> _signUp() async {
     final code = _codeController.text.trim();
 
     await traceInfo('ConfirmSignUp', 'Attempting confirmation for $email');
-    final error = await Auth.confirmSignUp(email, code); // ✅ static call
-    if (error == null) {
+    final confirmed = await Auth.confirmSignUp(email, code);
+    if (confirmed) {
       await traceInfo('ConfirmSignUp', 'Confirmation successful for $email');
       if (mounted) {
         Navigator.pushReplacementNamed(context, '/signin');
       }
     } else {
       await traceError(
-          'ConfirmSignUp', 'Confirmation failed for $email: $error');
-      setState(() => _error = error);
+          'ConfirmSignUp', 'Confirmation failed for $email');
     }
   }
 }

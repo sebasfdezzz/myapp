@@ -33,10 +33,7 @@ class _SignInScreenState extends State<SignInScreen> {
               obscureText: true,
             ),
             SizedBox(height: 24.0),
-            ElevatedButton(
-              onPressed: _signIn,
-              child: Text('Sign In'),
-            ),
+            ElevatedButton(onPressed: _signIn, child: Text('Sign In')),
             if (_error != null) ...[
               SizedBox(height: 8),
               Text(_error!, style: TextStyle(color: Colors.red)),
@@ -52,15 +49,14 @@ class _SignInScreenState extends State<SignInScreen> {
     final email = _emailController.text.trim();
     final password = _passwordController.text;
     await traceInfo('SignIn', 'Attempting sign in for $email');
-    final error = await Auth.signIn(email, password);
-    if (error == null) {
+    final signedIn = await Auth.signIn(email, password);
+    if (signedIn) {
       await traceInfo('SignIn', 'Sign in successful for $email');
       if (mounted) {
         Navigator.pushReplacementNamed(context, '/api_test');
       }
     } else {
-      await traceError('SignIn', 'Sign in failed for $email: $error');
-      setState(() => _error = error);
+      await traceError('SignIn', 'Sign in failed for $email');
     }
   }
 }
