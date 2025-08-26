@@ -1,0 +1,20 @@
+var example_json = {
+ "pk": "CLIENT-1234",
+ "sk": "CLIENT",
+ "address": "Calle Serrano 50",
+ "auto_renewal_enabled": true,
+ "city": "Madrid",
+ "client_name": "Wine Bistro",
+ "cognito_id": "21310231823",
+ "country": "Spain",
+ "entity_type": "Client",
+ "last_buy_time": "2025-08-01T19:30:00Z",
+ "last_expire_date": "2025-09-01T00:00:00Z",
+ "latitude": "40.432",
+ "longitude": "-3.678",
+ "neighborhood": "Salamanca",
+ "plan_type": "Premium",
+ "register_date": "2024-03-10T15:00:00Z",
+ "status": "ACTIVE",
+ "zip_code": "28006"
+};
