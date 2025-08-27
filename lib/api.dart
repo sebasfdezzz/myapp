@@ -5,7 +5,6 @@ import 'data/entities/account.dart';
 import 'data/entities/client.dart';
 import 'data/entities/dish.dart';
 import 'data/entities/opinion.dart';
-import 'data/entities/pairing.dart';
 import 'data/entities/payment.dart';
 import 'data/entities/wine.dart';
 import 'data/entities/wine_sale.dart';
@@ -293,5 +292,40 @@ class OpinionsApi extends Api {
 
   static Future<http.Response> getOpinionsByClient(String clientId) {
     return Api.callApi(method: 'GET', path: 'opinions/$clientId');
+  }
+}
+
+// Wines Basic API
+class WinesBasicApi extends Api {
+  static Future<http.Response> createBasicWine(Account account) {
+    return Api.callApi(
+      method: 'POST', 
+      path: 'accounts', 
+      body: jsonEncode(account.toJson())
+    );
+  }
+
+  static Future<http.Response> getAccount(String accountId) {
+    return Api.callApi(method: 'GET', path: 'accounts/$accountId');
+  }
+
+  static Future<http.Response> updateAccount(Account account) {
+    return Api.callApi(
+      method: 'PUT', 
+      path: 'accounts/${account.accountId}', 
+      body: jsonEncode(account.toJson())
+    );
+  }
+
+  static Future<http.Response> patchAccount(String accountId, Map<String, dynamic> updates) {
+    return Api.callApi(
+      method: 'PATCH', 
+      path: 'accounts/$accountId', 
+      body: jsonEncode(updates)
+    );
+  }
+
+  static Future<http.Response> getAccountByCognito(String cognitoId) {
+    return Api.callApi(method: 'GET', path: 'accounts/cognito/$cognitoId');
   }
 }
