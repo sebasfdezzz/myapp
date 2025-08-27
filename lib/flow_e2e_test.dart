@@ -12,11 +12,11 @@ class _E2EScreenState extends State<E2EScreen> {
     try {
       bool result = E2ETest.startTest();
       setState(() {
-        _statusMessage = result ? "✅ Test completed successfully" : "❌ Test failed";
+        _statusMessage = result ? "Test completed successfully" : "Test failed";
       });
     } catch (e) {
       setState(() {
-        _statusMessage = "⚠️ Error: $e";
+        _statusMessage = "Error: $e";
       });
     }
   }
