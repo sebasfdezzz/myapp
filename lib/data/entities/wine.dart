@@ -1,4 +1,6 @@
 import 'dart:math';
+import 'package:uuid/uuid.dart';
+
 import '../../logs.dart';
 
 var json_example = {
@@ -108,8 +110,7 @@ class Wine {
     }
 
     static String _generateId() {
-        final id = 'W${Random().nextInt(999999).toString().padLeft(3, '0')}';
-        return id;
+        return Uuid().v4();
     }
 
     static Wine? fromJson(Map<String, dynamic> json) {

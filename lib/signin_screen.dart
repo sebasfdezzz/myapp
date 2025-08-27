@@ -53,7 +53,7 @@ class _SignInScreenState extends State<SignInScreen> {
     if (signedIn) {
       await traceInfo('SignIn', 'Sign in successful for $email');
       if (mounted) {
-        Navigator.pushReplacementNamed(context, '/api_test');
+        Navigator.pushReplacementNamed(context, '/e2e');
       }
     } else {
       await traceError('SignIn', 'Sign in failed for $email');

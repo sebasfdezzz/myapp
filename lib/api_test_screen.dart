@@ -93,7 +93,7 @@ class _ApiTestScreenState extends State<ApiTestScreen> {
       await traceInfo('ApiTest', 'Sending $_method request to $url');
       final resp = await Api.callApi(
         method: _method,
-        url: url,
+        path: _endpointController.text.trim(),
         body: _method == 'GET' ? null : _bodyController.text.trim(),
       );
 

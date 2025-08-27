@@ -6,19 +6,11 @@ class Menu {
 
   Menu({required this.categories});
 
-  factory Menu.fromJson(Map<String, dynamic> json) {
-    return Menu(
-      categories: (json['categories'] as List)
-          .map((c) => Category.fromJson(c))
-          .toList(),
-    );
-  }
-
   static Menu? fromJson(Map<String, dynamic> json) {
     try {
        return Menu(
         categories: (json['categories'] as List)
-            .map((c) => Category.fromJson(c))
+            .map((c) => Category.fromJson(c)!)
             .toList(),
       );
     } catch (error) {
@@ -49,7 +41,7 @@ class Category {
        return Category(
         name: json['name'],
         dishes: (json['dishes'] as List)
-            .map((p) => Dish.fromJson(p))
+            .map((p) => Dish.fromJson(p)!)
             .toList(),
       );
     } catch (error) {

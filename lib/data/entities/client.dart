@@ -1,4 +1,6 @@
 import 'dart:math';
+import 'package:uuid/uuid.dart';
+
 import '../../logs.dart';
 
 var example_json = {
@@ -104,7 +106,7 @@ class Client {
     }
 
     static String _generateId() {
-        return Random().nextInt(999999).toString().padLeft(4, '0');
+        return Uuid().v4();
     }
 
     static Client? fromJson(Map<String, dynamic> json) {

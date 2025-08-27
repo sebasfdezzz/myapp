@@ -1,4 +1,6 @@
 import 'dart:math';
+import 'package:uuid/uuid.dart';
+
 import '../../logs.dart';
 
 var json_example = {
@@ -65,7 +67,7 @@ class Opinion {
     }
 
     static String _generateId() {
-        return 'O${Random().nextInt(999999).toString().padLeft(3, '0')}';
+        return Uuid().v4();
     }
 
     static Opinion? fromJson(Map<String, dynamic> json) {

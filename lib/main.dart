@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:myapp/api_test_screen.dart';
+import 'package:myapp/flow_e2e_test.dart';
 import 'package:myapp/signin_screen.dart';
 import 'package:myapp/signup_screen.dart';
 
@@ -21,6 +22,7 @@ class MyApp extends StatelessWidget {
         '/signin': (context) => SignInScreen(),
         '/signup': (context) => SignUpScreen(),
         '/api_test': (context) => ApiTestScreen(),
+        '/e2e': (context) => E2EScreen(),
       },
     );
   }
