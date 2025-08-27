@@ -66,7 +66,7 @@ class Api {
 // Accounts API
 class AccountsApi extends Api {
   static Future<http.Response> createAccount(Account account) {
-    return callApi(
+    return Api.callApi(
       method: 'POST', 
       path: 'accounts', 
       body: jsonEncode(account.toJson())
@@ -74,11 +74,11 @@ class AccountsApi extends Api {
   }
 
   static Future<http.Response> getAccount(String accountId) {
-    return callApi(method: 'GET', path: 'accounts/$accountId');
+    return Api.callApi(method: 'GET', path: 'accounts/$accountId');
   }
 
   static Future<http.Response> updateAccount(Account account) {
-    return callApi(
+    return Api.callApi(
       method: 'PUT', 
       path: 'accounts/${account.accountId}', 
       body: jsonEncode(account.toJson())
@@ -86,7 +86,7 @@ class AccountsApi extends Api {
   }
 
   static Future<http.Response> patchAccount(String accountId, Map<String, dynamic> updates) {
-    return callApi(
+    return Api.callApi(
       method: 'PATCH', 
       path: 'accounts/$accountId', 
       body: jsonEncode(updates)
@@ -94,14 +94,14 @@ class AccountsApi extends Api {
   }
 
   static Future<http.Response> getAccountByCognito(String cognitoId) {
-    return callApi(method: 'GET', path: 'accounts/cognito/$cognitoId');
+    return Api.callApi(method: 'GET', path: 'accounts/cognito/$cognitoId');
   }
 }
 
 // Clients API
 class ClientsApi extends Api {
   static Future<http.Response> createClient(Client client) {
-    return callApi(
+    return Api.callApi(
       method: 'POST', 
       path: 'clients', 
       body: jsonEncode(client.toJson())
@@ -109,11 +109,11 @@ class ClientsApi extends Api {
   }
 
   static Future<http.Response> getClient(String clientId) {
-    return callApi(method: 'GET', path: 'clients/$clientId');
+    return Api.callApi(method: 'GET', path: 'clients/$clientId');
   }
 
   static Future<http.Response> updateClient(Client client) {
-    return callApi(
+    return Api.callApi(
       method: 'PUT', 
       path: 'clients/${client.clientId}', 
       body: jsonEncode(client.toJson())
@@ -121,7 +121,7 @@ class ClientsApi extends Api {
   }
 
   static Future<http.Response> patchClient(String clientId, Map<String, dynamic> updates) {
-    return callApi(
+    return Api.callApi(
       method: 'PATCH', 
       path: 'clients/$clientId', 
       body: jsonEncode(updates)
@@ -129,18 +129,18 @@ class ClientsApi extends Api {
   }
 
   static Future<http.Response> getClientByCognito(String cognitoId) {
-    return callApi(method: 'GET', path: 'clients/cognito/$cognitoId');
+    return Api.callApi(method: 'GET', path: 'clients/cognito/$cognitoId');
   }
 }
 
 // Dishes API
 class DishesApi extends Api {
   static Future<http.Response> getDish(String clientId, String dishId) {
-    return callApi(method: 'GET', path: 'dishes/$clientId/$dishId');
+    return Api.callApi(method: 'GET', path: 'dishes/$clientId/$dishId');
   }
 
   static Future<http.Response> updateDish(Dish dish) {
-    return callApi(
+    return Api.callApi(
       method: 'PUT', 
       path: 'dishes/${dish.clientId}/${dish.dishId}', 
       body: jsonEncode(dish.toJson())
@@ -148,7 +148,7 @@ class DishesApi extends Api {
   }
 
   static Future<http.Response> patchDish(String clientId, String dishId, Map<String, dynamic> updates) {
-    return callApi(
+    return Api.callApi(
       method: 'PATCH', 
       path: 'dishes/$clientId/$dishId', 
       body: jsonEncode(updates)
@@ -156,11 +156,11 @@ class DishesApi extends Api {
   }
 
   static Future<http.Response> getDishesByClient(String clientId) {
-    return callApi(method: 'GET', path: 'dishes/$clientId');
+    return Api.callApi(method: 'GET', path: 'dishes/$clientId');
   }
 
   static Future<http.Response> createDish(Dish dish) {
-    return callApi(
+    return Api.callApi(
       method: 'POST', 
       path: 'dishes/${dish.clientId}', 
       body: jsonEncode(dish.toJson())
@@ -171,31 +171,31 @@ class DishesApi extends Api {
 // Pairings API
 class PairingsApi extends Api {
   static Future<http.Response> getPairing(String clientId, String dishId) {
-    return callApi(method: 'GET', path: 'pairings/$clientId/$dishId');
+    return Api.callApi(method: 'GET', path: 'pairings/$clientId/$dishId');
   }
 
   static Future<http.Response> createSinglePairing(String clientId, String dishId) {
-    return callApi(method: 'POST', path: 'pairings/$clientId/$dishId');
+    return Api.callApi(method: 'POST', path: 'pairings/$clientId/$dishId');
   }
 
   static Future<http.Response> getPairingsByClient(String clientId) {
-    return callApi(method: 'GET', path: 'pairings/$clientId');
+    return Api.callApi(method: 'GET', path: 'pairings/$clientId');
   }
 
   static Future<http.Response> createPairings(String clientId, {List<String>? dishIds}) {
     String body = dishIds != null ? jsonEncode({'dishIds': dishIds}) : '';
-    return callApi(method: 'POST', path: 'pairings/$clientId', body: body);
+    return Api.callApi(method: 'POST', path: 'pairings/$clientId', body: body);
   }
 }
 
 // Payments API
 class PaymentsApi extends Api {
   static Future<http.Response> getPayment(String clientId, String paymentId) {
-    return callApi(method: 'GET', path: 'payments/$clientId/$paymentId');
+    return Api.callApi(method: 'GET', path: 'payments/$clientId/$paymentId');
   }
 
   static Future<http.Response> updatePayment(Payment payment) {
-    return callApi(
+    return Api.callApi(
       method: 'PUT', 
       path: 'payments/${payment.clientId}/${payment.paymentId}', 
       body: jsonEncode(payment.toJson())
@@ -203,7 +203,7 @@ class PaymentsApi extends Api {
   }
 
   static Future<http.Response> patchPayment(String clientId, String paymentId, Map<String, dynamic> updates) {
-    return callApi(
+    return Api.callApi(
       method: 'PATCH', 
       path: 'payments/$clientId/$paymentId', 
       body: jsonEncode(updates)
@@ -211,11 +211,11 @@ class PaymentsApi extends Api {
   }
 
   static Future<http.Response> getPaymentsByClient(String clientId) {
-    return callApi(method: 'GET', path: 'payments/$clientId');
+    return Api.callApi(method: 'GET', path: 'payments/$clientId');
   }
 
   static Future<http.Response> createPayment(Payment payment) {
-    return callApi(
+    return Api.callApi(
       method: 'POST', 
       path: 'payments/${payment.clientId}', 
       body: jsonEncode(payment.toJson())
@@ -226,11 +226,11 @@ class PaymentsApi extends Api {
 // Wines API
 class WinesApi extends Api {
   static Future<http.Response> getWine(String clientId, String wineId) {
-    return callApi(method: 'GET', path: 'wines/$clientId/$wineId');
+    return Api.callApi(method: 'GET', path: 'wines/$clientId/$wineId');
   }
 
   static Future<http.Response> updateWine(Wine wine) {
-    return callApi(
+    return Api.callApi(
       method: 'PUT', 
       path: 'wines/${wine.clientId}/${wine.wineId}', 
       body: jsonEncode(wine.toJson())
@@ -238,7 +238,7 @@ class WinesApi extends Api {
   }
 
   static Future<http.Response> patchWine(String clientId, String wineId, Map<String, dynamic> updates) {
-    return callApi(
+    return Api.callApi(
       method: 'PATCH', 
       path: 'wines/$clientId/$wineId', 
       body: jsonEncode(updates)
@@ -246,11 +246,11 @@ class WinesApi extends Api {
   }
 
   static Future<http.Response> getWinesByClient(String clientId) {
-    return callApi(method: 'GET', path: 'wines/$clientId');
+    return Api.callApi(method: 'GET', path: 'wines/$clientId');
   }
 
   static Future<http.Response> createWine(Wine wine) {
-    return callApi(
+    return Api.callApi(
       method: 'POST', 
       path: 'wines/${wine.clientId}', 
       body: jsonEncode(wine.toJson())
@@ -261,11 +261,11 @@ class WinesApi extends Api {
 // Wine Sales API
 class WineSalesApi extends Api {
   static Future<http.Response> getWineSale(String clientId, String wineId) {
-    return callApi(method: 'GET', path: 'wine_sales/$clientId/$wineId');
+    return Api.callApi(method: 'GET', path: 'wine_sales/$clientId/$wineId');
   }
 
   static Future<http.Response> createWineSale(WineSale wineSale) {
-    return callApi(
+    return Api.callApi(
       method: 'POST', 
       path: 'wine_sales/${wineSale.clientId}/${wineSale.wineId}', 
       body: jsonEncode(wineSale.toJson())
@@ -273,18 +273,18 @@ class WineSalesApi extends Api {
   }
 
   static Future<http.Response> getWineSalesByClient(String clientId) {
-    return callApi(method: 'GET', path: 'wine_sales/$clientId');
+    return Api.callApi(method: 'GET', path: 'wine_sales/$clientId');
   }
 }
 
 // Opinions API
 class OpinionsApi extends Api {
   static Future<http.Response> getOpinion(String clientId, String dishId) {
-    return callApi(method: 'GET', path: 'opinions/$clientId/$dishId');
+    return Api.callApi(method: 'GET', path: 'opinions/$clientId/$dishId');
   }
 
   static Future<http.Response> createOpinion(Opinion opinion) {
-    return callApi(
+    return Api.callApi(
       method: 'POST', 
       path: 'opinions/${opinion.clientId}/${opinion.dishId}', 
       body: jsonEncode(opinion.toJson())
@@ -292,6 +292,6 @@ class OpinionsApi extends Api {
   }
 
   static Future<http.Response> getOpinionsByClient(String clientId) {
-    return callApi(method: 'GET', path: 'opinions/$clientId');
+    return Api.callApi(method: 'GET', path: 'opinions/$clientId');
   }
 }
